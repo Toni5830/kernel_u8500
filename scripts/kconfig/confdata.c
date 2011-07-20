@@ -460,6 +460,17 @@ static void conf_write_symbol(struct symbol *sym, FILE *out, bool write_no)
 			fprintf(out, "%s%s=y\n", CONFIG_, sym->name);
 			break;
 		}
+		/*
+		 * Generate the __enabled_CONFIG_* and
+		 * __enabled_CONFIG_*_MODULE macros for use by the
+		 * IS_{ENABLED,BUILTIN,MODULE} macros. The _MODULE variant is
+		 * generated even for booleans so that the IS_ENABLED() macro
+		 * works.
+		 */
+		fprintf(fp, "#define __enabled_" CONFIG_ "%s %d\n",
+				sym->name, (*value == 'y'));
+		fprintf(fp, "#define __enabled_" CONFIG_ "%s_MODULE %d\n",
+				sym->name, (*value == 'm'));
 		break;
 	case S_STRING:
 		conf_write_string(false, sym->name, sym_get_string_value(sym), out);
