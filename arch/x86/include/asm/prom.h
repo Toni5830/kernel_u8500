@@ -19,7 +19,7 @@
 #include <linux/pci.h>
 
 #include <asm/irq.h>
-#include <asm/atomic.h>
+#include <linux/atomic.h>
 #include <asm/setup.h>
 
 #ifdef CONFIG_OF
