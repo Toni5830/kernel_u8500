@@ -1630,7 +1630,7 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
 
 	oom_score_adj = test_set_oom_score_adj(OOM_SCORE_ADJ_MAX);
 	err = try_to_unuse(type, false, 0); /* force all pages to be unused */
-	test_set_oom_score_adj(oom_score_adj);
+	compare_swap_oom_score_adj(OOM_SCORE_ADJ_MAX, oom_score_adj);
 
 	if (err) {
 		/*
@@ -2034,7 +2034,7 @@ int swapon(char *name, int swap_flags)
 {
 	struct swap_info_struct *p;
 
-	struct file *swap_file = NULL;
+	struct file *swap_file = fNULL;
 	struct address_space *mapping;
 	int i;
 	int prio;
