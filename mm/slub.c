@@ -648,17 +648,6 @@ static void init_object(struct kmem_cache *s, void *object, u8 val)
 		memset(p + s->objsize, val, s->inuse - s->objsize);
 }
 
-static u8 *check_bytes(u8 *start, unsigned int value, unsigned int bytes)
-{
-	while (bytes) {
-		if (*start != (u8)value)
-			return start;
-		start++;
-		bytes--;
-	}
-	return NULL;
-}
-
 static void restore_bytes(struct kmem_cache *s, char *message, u8 data,
 						void *from, void *to)
 {
@@ -673,7 +662,7 @@ static int check_bytes_and_report(struct kmem_cache *s, struct page *page,
 	u8 *fault;
 	u8 *end;
 
-	fault = check_bytes(start, value, bytes);
+	fault = memchr_inv(start, value, bytes);
 	if (!fault)
 		return 1;
 
@@ -766,7 +755,7 @@ static int slab_pad_check(struct kmem_cache *s, struct page *page)
 	if (!remainder)
 		return 1;
 
-	fault = check_bytes(end - remainder, POISON_INUSE, remainder);
+	fault = memchr_inv(end - remainder, POISON_INUSE, remainder);
 	if (!fault)
 		return 1;
 	while (end > fault && end[-1] == POISON_INUSE)
