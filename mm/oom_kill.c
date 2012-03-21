@@ -33,6 +33,7 @@
 #include <linux/security.h>
 #include <linux/ptrace.h>
 #include <linux/freezer.h>
+#include <linux/ratelimit.h>
 
 int sysctl_panic_on_oom;
 int sysctl_oom_kill_allocating_task;
@@ -438,6 +439,8 @@ static void oom_kill_process(struct task_struct *p, gfp_t gfp_mask, int order,
 	struct task_struct *t = p;
 	struct mm_struct *mm;
 	unsigned int victim_points = 0;
+	static DEFINE_RATELIMIT_STATE(oom_rs, DEFAULT_RATELIMIT_INTERVAL,
+					      DEFAULT_RATELIMIT_BURST);
 
 	/*
 	 * If the task is already exiting, don't alarm the sysadmin or kill
@@ -448,7 +451,7 @@ static void oom_kill_process(struct task_struct *p, gfp_t gfp_mask, int order,
 		return;
 	}
 
-	if (printk_ratelimit())
+	if (__ratelimit(&oom_rs))
 		dump_header(p, gfp_mask, order, memcg, nodemask);
 
 	task_lock(p);
