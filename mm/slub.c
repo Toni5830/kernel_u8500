@@ -1579,6 +1579,7 @@ static struct page *get_any_partial(struct kmem_cache *s, gfp_t flags,
 	enum zone_type high_zoneidx = gfp_zone(flags);
 	unsigned int cpuset_mems_cookie;
 	void *object;
+	unsigned int cpuset_mems_cookie;
 
 	/*
 	 * The defrag ratio allows a configuration of the tradeoffs between
