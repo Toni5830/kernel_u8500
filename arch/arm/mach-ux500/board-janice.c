@@ -53,6 +53,7 @@
 #include <plat/gpio-nomadik.h>
 #include <plat/i2c.h>
 #include <plat/ste_dma40.h>
+#include <plat/gpio-nomadik.h>
 
 #include <mach/devices.h>
 #if defined(CONFIG_LIGHT_PROX_GP2A)
