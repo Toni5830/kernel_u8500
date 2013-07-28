@@ -242,6 +242,10 @@ config CPU_FREQ_GOV_ONDEMANDQ
 	help
 	   Based on ondemand,hotplug in suspend.
 
+config CPU_FREQ_GOV_LULZACTIVEQ
+	tristate "'lulzactiveq' cpufreq governor"
+	depends on CPU_FREQ
+
 config CPU_FREQ_GOV_PEGASUSQ
 	tristate "'pegasusq' cpufreq policy governor"
 
