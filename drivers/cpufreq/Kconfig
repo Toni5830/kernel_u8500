@@ -236,6 +236,12 @@ config CPU_FREQ_GOV_ABYSSPLUG
 
           If in doubt, say N.
 
+config CPU_FREQ_GOV_ONDEMANDQ
+	tristate "'ondemand' cpufreq policy governor"
+	depends on HAS_EARLYSUSPEND
+	help
+	   Based on ondemand,hotplug in suspend.
+
 config CPU_FREQ_GOV_PEGASUSQ
 	tristate "'pegasusq' cpufreq policy governor"
 
