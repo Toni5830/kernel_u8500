@@ -590,6 +590,8 @@ static int __init vfp_init(void)
 			 */
 			if (((fmrx(MVFR0) & MVFR0_A_SIMD_MASK)) == 1)
 				elf_hwcap |= HWCAP_VFPv3D16;
+			else
+				elf_hwcap |= HWCAP_VFPD32;
 		}
 #endif
 		/*
