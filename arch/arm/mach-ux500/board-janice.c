@@ -50,6 +50,7 @@
 #include <asm/mach-types.h>
 
 #include <plat/pincfg.h>
+#include <plat/gpio-nomadik.h>
 #include <plat/i2c.h>
 #include <plat/ste_dma40.h>
 
