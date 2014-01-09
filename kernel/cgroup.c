@@ -372,7 +372,7 @@ static void free_css_set_work(struct work_struct *work)
 		 * dropped to 0 the cgroup can be destroyed at any time, hence
 		 * rcu_read_lock is used to keep it alive.
 		 */
-		rcu_read_lock():
+		rcu_read_lock();
 		if (atomic_dec_and_test(&cgrp->count)) {
 			check_for_release(cgrp);
 			cgroup_wakeup_rmdir_waiter(cgrp);
