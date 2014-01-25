@@ -802,3 +802,5 @@ out:
 	return ret;
 }
 device_initcall(logger_init);
+
+MODULE_LICENSE("GPL");
