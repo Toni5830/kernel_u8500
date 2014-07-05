@@ -31,7 +31,7 @@
 #include "mali_kernel_common.h"
 #include "mali_kernel_linux.h"
 
-#include <linux/moduleparam.h> 
+#include <linux/moduleparam.h>
 
 static void mali_kernel_memory_vma_open(struct vm_area_struct * vma);
 static void mali_kernel_memory_vma_close(struct vm_area_struct * vma);
