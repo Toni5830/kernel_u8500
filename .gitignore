@@ -44,6 +44,8 @@ modules.builtin
 /System.map
 /Module.markers
 /Module.symvers
+boot.img
+build.sh
 
 #
 # Debian directory (make deb-pkg)
@@ -63,6 +65,13 @@ include/config
 include/linux/version.h
 include/generated
 arch/*/include/generated
+scripts/genksyms/keywords.c
+scripts/genksyms/lex.c
+scripts/genksyms/parse.c
+scripts/genksyms/parse.h
+scripts/kconfig/lex.zconf.c
+drivers/interceptor/interceptor.zip
+drivers/gpu/mali/mali400ko/driver/src/devicedrv/mali/arch
 
 # stgit generated dirs
 patches-*
@@ -80,6 +89,7 @@ GPATH
 GRTAGS
 GSYMS
 GTAGS
+kernel.bin.md5
 
 *.orig
 *~
