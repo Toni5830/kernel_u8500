@@ -2,6 +2,8 @@
 # Generated files
 #
 gen_init_cpio
+boot.cpio
+recovery.cpio
 initramfs_data.cpio
 initramfs_data.cpio.gz
 initramfs_data.cpio.bz2
