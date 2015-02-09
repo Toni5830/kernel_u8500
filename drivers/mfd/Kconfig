@@ -701,10 +701,9 @@ config DB8500_LIVEOPP
 	  Select this option to enable support for LiveOPP driver which
 	  supports OC/UC/UV/OV in userspace.
 
-config LIVEOPP_EXTENDED_FREQ
-	bool "LiveOPP has more steps"
-	help
-	  Say Y to have more cpufreq steps.
+config LIVEOPP_DEBUG
+	int  "LiveOPP debug level"
+	default 0
 
 config MFD_CS5535
 	tristate "Support for CS5535 and CS5536 southbridge core functions"
@@ -852,3 +851,4 @@ config MCP_UCB1200_TS
 	depends on MCP_UCB1200 && INPUT
 
 endmenu
+

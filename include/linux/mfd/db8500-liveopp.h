@@ -77,3 +77,4 @@ struct liveopp_arm_table
 #define PLLARM_FREQ_STEPS		38400
 #define PLLARM_MAXOPP			0x0001011A
 #define PLLARM_FREQ100OPP		0x00050168
+

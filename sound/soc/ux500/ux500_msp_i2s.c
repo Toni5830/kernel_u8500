@@ -834,3 +834,4 @@ int ux500_msp_i2s_resume(struct ux500_msp_i2s_drvdata *drvdata)
 }
 
 MODULE_LICENSE("GPLv2");
+

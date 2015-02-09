@@ -352,3 +352,4 @@ static int __init performance_register(void)
 	return ret_mmc ? ret_mmc : (ret_wlan ? ret_wlan : ret);
 }
 late_initcall(performance_register);
+
