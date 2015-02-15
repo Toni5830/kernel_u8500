@@ -963,7 +963,7 @@ void wakeup_flusher_threads(long nr_pages)
 {
 	struct backing_dev_info *bdi;
 
-	if (!nr_pages)
+	if (!nr_pages) {
  		nr_pages = get_nr_dirty_pages();
 	}
 

@@ -741,7 +741,6 @@ DEFINE_LOGGER_DEVICE(log_radio, LOGGER_LOG_RADIO, 2048*1024)
 DEFINE_LOGGER_DEVICE(log_radio, LOGGER_LOG_RADIO, 32*1024)
 #endif
 DEFINE_LOGGER_DEVICE(log_system, LOGGER_LOG_SYSTEM, 64*1024)
-DEFINE_LOGGER_DEVICE(log_sf, LOGGER_LOG_SF, 64*1024)
 
 static struct logger_log *get_log_from_minor(int minor)
 {
