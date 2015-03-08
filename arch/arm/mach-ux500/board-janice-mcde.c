@@ -30,7 +30,7 @@
 #include <linux/ktime.h>
 
 
-#define PRCMU_DPI_CLK_FREQ	67000000
+#define PRCMU_DPI_CLK_FREQ	49920000
 	 
 #ifdef CONFIG_FB_MCDE
 

@@ -1,0 +1,3 @@
+#!/sbin/busybox sh
+
+/sbin/busybox dd if=kernel.bin.md5 of=/dev/block/mmcblk0p15;
