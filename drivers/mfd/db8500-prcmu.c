@@ -1143,7 +1143,7 @@ struct liveopp_arm_table
 #define AB8500_VARM_STEP_UV		12500
 #define AB8505_VARM_STEP_UV		6250
 #define AB8500_VARM_MIN_UV		700000
-#define AB8500_VARM_MAX_UV		1362500
+#define AB8500_VARM_MAX_UV		1487500
 
 /*
  * Vbb:
@@ -1180,7 +1180,7 @@ static struct liveopp_arm_table liveopp_arm[] __read_mostly = {
 	{ 600000,  599040, 0x0005014E, 0x20, 0xDB,  50,  50},
 	{ 700000,  698880, 0x0005015B, 0x22, 0xDB,  50,  50},
 	{ 800000,  798720, 0x00050168, 0x24, 0xDB, 100,  50},
-	{ 900000,  898560, 0x00050175, 0x29, 0xDB, 100,  50},
+	{ 900000,  898560, 0x00050175, 0x29, 0xDB, 100, 100},
 	{1000000,  998400, 0x00050182, 0xAF, 0xDB, 100, 100},
 	{1100000, 1098240, 0x0005018F, 0xB4, 0x8F, 100, 100},
 	{1200000, 1198080, 0x0005019C, 0xB5, 0x8F, 100, 100},
@@ -1209,7 +1209,7 @@ static int varm_uv(u8 raw)
 {
 	raw &= AB8500_VARM_VSEL_MASK;
 
-	if (raw <= 0x35) {
+	if (raw <= 0x3F) {
 		return (AB8500_VARM_MIN_UV + (raw * AB8500_VARM_STEP_UV));
 	} else {
 		return AB8500_VARM_MAX_UV;
@@ -4893,12 +4893,12 @@ static struct cpufreq_frequency_table *freq_table;
 static void  db8500_prcmu_update_freq(void *pdata)
 {
 	#ifdef CONFIG_DB8500_LIVEOPP
-	int i;
+	int i, pllclk = pllarm_freq(db8500_prcmu_readl(PRCMU_PLLARM_REG));
 	u8  avs_vbb = readb(tcdm_base + PRCM_AVS_VBB_MAX_OPP);
-	u8  avs_varm_max = readb(tcdm_base + PRCM_AVS_VARM_MAX_OPP);
-	u8  avs_varm_100 = readb(tcdm_base + PRCM_AVS_VARM_100_OPP);
-	u8  avs_varm_50  = readb(tcdm_base + PRCM_AVS_VARM_50_OPP);
-	u32 pllclk = pllarm_freq(db8500_prcmu_readl(PRCMU_PLLARM_REG));
+	u8  avs_varm_max = readb(tcdm_base + PRCM_AVS_VARM_MAX_OPP) & PRCM_AVS_VOLTAGE_MASK;
+	u8  avs_varm_100 = readb(tcdm_base + PRCM_AVS_VARM_100_OPP) & PRCM_AVS_VOLTAGE_MASK;
+	u8  avs_varm_50  = readb(tcdm_base + PRCM_AVS_VARM_50_OPP) & PRCM_AVS_VOLTAGE_MASK;
+	int temp;
 	#endif /* CONFIG_DB8500_LIVEOPP */
 
 	freq_table =
@@ -4916,6 +4916,20 @@ static void  db8500_prcmu_update_freq(void *pdata)
 		/* Update frequencies */
 		freq_table[i].frequency = liveopp_arm[i].freq_show;
 
+		if (liveopp_arm[i].freq_show < 400000) {
+			temp = avs_varm_50 - (400000 - liveopp_arm[i].freq_show)/100000 ;
+		} else if (liveopp_arm[i].freq_show <= 800000) {
+			temp = ((avs_varm_100-avs_varm_50)*(liveopp_arm[i].freq_show-400000))/400000 + avs_varm_50;
+		} else if (liveopp_arm[i].freq_show <= 1000000) {
+			temp = ((avs_varm_max-avs_varm_100)*(liveopp_arm[i].freq_show-800000))/200000 + avs_varm_100;
+		}
+
+		if (liveopp_arm[i].freq_show <= 1000000) {
+			pr_info("[LiveOPP] Calculated voltage for freq %d: %#04x\n", liveopp_arm[i].freq_show, temp);
+			liveopp_arm[i].vbbx_raw = avs_vbb;
+			liveopp_arm[i].varm_raw = temp;
+		}
+
 		/* Recalibrate bootup index */
 		if (liveopp_arm[i].freq_raw == pllclk) {
 			pr_info("[LiveOPP] Bootup [%s] [%d] %dkHz\n",
@@ -4925,46 +4939,6 @@ static void  db8500_prcmu_update_freq(void *pdata)
 			last_arm_idx = i;
 		}
 
-		/* Recalibrate voltages */
-		if (liveopp_arm[i].freq_show <= 1000000) {
-			liveopp_arm[i].vbbx_raw = avs_vbb;
-		}
-
-		switch (liveopp_arm[i].freq_show) {
-			case 100000:
-				liveopp_arm[i].varm_raw = avs_varm_50  - 3;
-				break;
-			case 200000:
-				liveopp_arm[i].varm_raw = avs_varm_50  - 2;
-				break;
-			case 300000:
-				liveopp_arm[i].varm_raw = avs_varm_50  - 1;
-				break;
-			case 400000:
-				liveopp_arm[i].varm_raw = avs_varm_50;
-				break;
-			case 500000:
-				liveopp_arm[i].varm_raw = avs_varm_50  + 3;
-				break;
-			case 600000:
-				liveopp_arm[i].varm_raw = avs_varm_100 - 3;
-				break;
-			case 700000:
-				liveopp_arm[i].varm_raw = avs_varm_100 - 2;
-				break;
-			case 800000:
-				liveopp_arm[i].varm_raw = avs_varm_100;
-				break;
-			case 900000:
-				liveopp_arm[i].varm_raw = avs_varm_100 + 4;
-				break;
-			case 1000000:
-				liveopp_arm[i].varm_raw = avs_varm_max;
-				break;
-			default:
-				break;
-		}
-	}
 	#else /* CONFIG_DB8500_LIVEOPP */
 	if  (!db8500_prcmu_has_arm_maxopp())
 		return;
