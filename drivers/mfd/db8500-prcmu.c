@@ -4905,13 +4905,7 @@ static void  db8500_prcmu_update_freq(void *pdata)
 		(struct cpufreq_frequency_table *)pdata;
 
 	#ifdef CONFIG_DB8500_LIVEOPP
-	pr_info("[LiveOPP] Total steps [%d]\n", ARRAY_SIZE(liveopp_arm));
-	pr_info("[LiveOPP] Vbb [%#04x] Varm [%#04x %#04x %#04x]\n",
-					avs_vbb,
-					avs_varm_max,
-					avs_varm_100,
-					avs_varm_50);
-
+	pr_info("[LiveOPP] Available freqs: %d\n", ARRAY_SIZE(liveopp_arm));
 	for (i = 0; i < ARRAY_SIZE(liveopp_arm); i++) {
 		/* Update frequencies */
 		freq_table[i].frequency = liveopp_arm[i].freq_show;
@@ -4932,13 +4926,10 @@ static void  db8500_prcmu_update_freq(void *pdata)
 
 		/* Recalibrate bootup index */
 		if (liveopp_arm[i].freq_raw == pllclk) {
-			pr_info("[LiveOPP] Bootup [%s] [%d] %dkHz\n",
-						armopp_name[db8500_prcmu_get_arm_opp()],
-						i, 
-						pllclk);
+			pr_info("[LiveOPP] Boot up -> [%d] %dkHz\n", i, pllclk);
 			last_arm_idx = i;
 		}
-
+	}
 	#else /* CONFIG_DB8500_LIVEOPP */
 	if  (!db8500_prcmu_has_arm_maxopp())
 		return;
@@ -5018,4 +5009,3 @@ arch_initcall(db8500_prcmu_init);
 MODULE_AUTHOR("Mattias Nilsson <mattias.i.nilsson@stericsson.com>");
 MODULE_DESCRIPTION("DB8500 PRCM Unit driver");
 MODULE_LICENSE("GPL v2");
-
