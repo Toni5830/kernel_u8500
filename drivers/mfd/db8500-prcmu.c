@@ -1172,7 +1172,7 @@ static u32 __read_mostly liveopp_varm_us = 50;
 static struct liveopp_arm_table liveopp_arm[] __read_mostly = {
 //	| CLK            | PLL       | VDD | VBB | DDR | APE |
 //	{  50000,   46080, 0x00050106, 0x16, 0xDB,  25,  25},
-	{ 100000,   99840, 0x0005010D, 0x17, 0xDB,  25,  25},
+//	{ 100000,   99840, 0x0005010D, 0x17, 0xDB,  25,  25},
 	{ 200000,  199680, 0x0005011A, 0x18, 0xDB,  25,  25},
 	{ 300000,  299520, 0x00050127, 0x19, 0xDB,  25,  25},
 	{ 400000,  399360, 0x00050134, 0x1A, 0xDB,  25,  50},
