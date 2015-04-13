@@ -2013,7 +2013,6 @@ static int setup_swap_map_and_extents(struct swap_info_struct *p,
 }
 
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 int swapon(char *name, int swap_flags)
 {
 	struct swap_info_struct *p;
@@ -2165,7 +2164,6 @@ out:
 }
 
 EXPORT_SYMBOL(swapon);
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
 
 SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
 {

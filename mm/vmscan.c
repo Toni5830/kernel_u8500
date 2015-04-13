@@ -766,9 +766,7 @@ static noinline_for_stack void free_page_list(struct list_head *free_pages)
 /*
  * shrink_page_list() returns the number of reclaimed pages
  */
-#ifndef CONFIG_ZRAM_FOR_ANDROID
 static
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
 unsigned long shrink_page_list(struct list_head *page_list,
 				      struct zone *zone,
 				      struct scan_control *sc)
@@ -1271,9 +1269,7 @@ static unsigned long isolate_pages_global(unsigned long nr,
  * clear_active_flags() is a helper for shrink_active_list(), clearing
  * any active bits from the pages in the list.
  */
-#ifndef CONFIG_ZRAM_FOR_ANDROID
 static
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
 unsigned long clear_active_flags(struct list_head *page_list,
 					unsigned int *count)
 {
@@ -1344,7 +1340,6 @@ int isolate_lru_page(struct page *page)
 	return ret;
 }
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 /**
  * isolate_lru_page_compcache - tries to isolate a page for compcache
  * @page: page to isolate from its LRU list
@@ -1376,7 +1371,6 @@ int isolate_lru_page_compcache(struct page *page)
 	}
 	return ret;
 }
-#endif
 
 /*
  * Are there way too many processes in the direct reclaim path already?
@@ -1614,7 +1608,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct zone *zone,
 	return nr_reclaimed;
 }
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 unsigned long
 zone_id_shrink_pagelist(struct zone *zone, struct list_head *page_list)
 {
@@ -1650,7 +1643,6 @@ zone_id_shrink_pagelist(struct zone *zone, struct list_head *page_list)
 }
 
 EXPORT_SYMBOL(zone_id_shrink_pagelist);
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
 
 /*
  * This moves pages from the active list to the inactive list.

@@ -37,12 +37,10 @@
 #include <linux/notifier.h>
 /* #define ENHANCED_LMK_ROUTINE */
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 #include <linux/swap.h>
 #include <linux/device.h>
 #include <linux/err.h>
 #include <linux/mm_inline.h>
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
 #ifdef ENHANCED_LMK_ROUTINE
 #define LOWMEM_DEATHPENDING_DEPTH 3
 #endif
@@ -63,7 +61,6 @@ static size_t lowmem_minfree[6] = {
 };
 static int lowmem_minfree_size = 4;
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 static struct class *lmk_class;
 static struct device *lmk_dev;
 static int lmk_kill_pid = 0;
@@ -89,8 +86,6 @@ enum pageout_io {
 	PAGEOUT_IO_ASYNC,
 	PAGEOUT_IO_SYNC,
 };
-
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
 
 #ifdef ENHANCED_LMK_ROUTINE
 static struct task_struct *lowmem_deathpending[LOWMEM_DEATHPENDING_DEPTH] = {NULL,};
@@ -319,7 +314,6 @@ static struct shrinker lowmem_shrinker = {
 	.seeks = DEFAULT_SEEKS * 16
 };
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 /*
  * zone_id_shrink_pagelist() clear page flags,
  * update the memory zone status, and swap pagelist
@@ -507,21 +501,16 @@ static ssize_t lmk_state_store(struct device *dev,
 
 static DEVICE_ATTR(lmk_state, 0664, lmk_state_show, lmk_state_store);
 
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
-
 static int __init lowmem_init(void)
 {
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 	struct zone *zone;
 	unsigned int high_wmark = 0;
 	unsigned int low_wmark = 0;
-#endif
 
 	task_free_register(&task_nb);
 	register_shrinker(&lowmem_shrinker);
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
 	for_each_zone(zone) {
 		if (high_wmark < zone->watermark[WMARK_HIGH]) {
 			high_wmark = zone->watermark[WMARK_HIGH];
@@ -546,7 +535,6 @@ static int __init lowmem_init(void)
 	if (device_create_file(lmk_dev, &dev_attr_lmk_state) < 0)
 		printk(KERN_ERR "Failed to create device file(%s)!\n",
 		       dev_attr_lmk_state.attr.name);
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
 
 	return 0;
 }
