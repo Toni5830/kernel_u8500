@@ -447,7 +447,7 @@ static void dbg_touch_watchdogs(void)
 {
 	touch_softlockup_watchdog_sync();
 	clocksource_touch_watchdog();
-	rcu_cpu_stall_reset();
+//	rcu_cpu_stall_reset();
 }
 
 static int kgdb_cpu_enter(struct kgdb_state *ks, struct pt_regs *regs,
