@@ -665,6 +665,11 @@ static int __init parse_tag_cmdline(const struct tag *tag)
 #ifdef CONFIG_HWMEM_SIZE_MB
 	char buf[50];
 #endif
+
+#ifdef CONFIG_VMALLOC_SIZE_MB
+	char tmp[50];
+#endif
+
 #if defined(CONFIG_CMDLINE_EXTEND)
 	strlcat(default_command_line, " ", COMMAND_LINE_SIZE);
 	strlcat(default_command_line, tag->u.cmdline.cmdline,
@@ -680,6 +685,12 @@ static int __init parse_tag_cmdline(const struct tag *tag)
 	strlcat(default_command_line, buf, COMMAND_LINE_SIZE);
 #endif /* CONFIG_HWMEM_SIZE_MB */
 #endif
+
+#ifdef CONFIG_VMALLOC_SIZE_MB
+	sprintf(tmp, " vmalloc=%d", CONFIG_VMALLOC_SIZE_MB);
+	strlcat(default_command_line, tmp, COMMAND_LINE_SIZE);
+#endif /* CONFIG_VMALLOC_SIZE_MB */
+
 	return 0;
 }
 

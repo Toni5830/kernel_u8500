@@ -9,6 +9,11 @@ config HWMEM_SIZE_MB
 	default 84
 	help
 		Set here the size of the HWMEM, should be between 1 and 127 MB.
+config VMALLOC_SIZE_MB
+	int "Size of VMALLOC"
+	default 264
+	help
+		Set here the size of the VMALLOC.
 		
 #Configuration for MCDE setup
 
