@@ -3,24 +3,36 @@ on early-init
 
 on init
     export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
-    export ANDROID_ROOT /system
-    export ANDROID_DATA /data
-    export ANDROID_CACHE /cache
-    export SECONDARY_STORAGE /emmc
-    export EXTERNAL_STORAGE /sdcard
+    export LD_LIBRARY_PATH .:/sbin
+    export ANDROID_ROOT 	/system
+    export ANDROID_DATA 	/data
+    export ANDROID_CACHE 	/cache
+    export EXTERNAL_STORAGE 	/emmc
+    export SECONDARY_STORAGE 	/external_sd
 
     symlink /misc /etc
+    symlink /misc/supersu /supersu
+    symlink /misc/license /license
 
     mkdir /emmc
     mkdir /sdcard
+    mkdir /external_sd
+
+    mkdir /cache
+    mkdir /modem
     mkdir /usbdisk
     mkdir /system
     mkdir /data
-    mkdir /cache
     mkdir /preload
+    mkdir /dbdata
     mkdir /tmp
 
     mount /tmp /tmp tmpfs
+
+    mount vfat /dev/block/mmcblk0p8 /emmc
+
+    write /sys/devices/pri_lcd_s6e63m0.0/backlight/panel/brightness 80
+    write /sys/devices/virtual/timed_output/vibrator/enable 500
 
     write /sys/devices/platform/mcde_fb/graphics/fb0/bits_per_pixel 16
     write /sys/class/android_usb/android0/enable 0
@@ -34,7 +46,8 @@ on init
     write /sys/class/android_usb/android0/functions mass_storage,adb
     write /sys/class/android_usb/android0/enable 1
     write /sys/devices/platform/ab8500-i2c.0/ab8500-usb.0/boot_time_device 1
-    write /sys/devices/platform/ab8505-i2c.0/ab8500-usb.0/boot_time_device 1    
+    write /sys/devices/platform/ab8505-i2c.0/ab8500-usb.0/boot_time_device 1
+    setprop service.adb.root 1    
 
 on early-fs
 
@@ -78,10 +91,10 @@ on property:ro.debuggable=1
 service recovery /sbin/recovery
 
 service adbd /sbin/adbd recovery
-#    disabled
+#   disabled
 
 on property:persist.service.adb.enable=1
     start adbd
 
 #on property:persist.service.adb.enable=0
-#    stop adbd
+#   stop adbd

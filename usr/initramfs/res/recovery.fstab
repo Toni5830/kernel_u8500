@@ -27,17 +27,15 @@
 # Mount point	fs	        device                       [device2]
 /system		ext4	        /dev/block/mmcblk0p3
 /cache		ext4	        /dev/block/mmcblk0p4
-/data		ext4	        /dev/block/mmcblk0p5          length=-16384
-/sdcard		vfat	        /dev/block/mmcblk1 /dev/block/mmcblk1p1
-#/misc		emmc	/dev/block/mmcblk0p6
+/data		ext4	        /dev/block/mmcblk0p5          	length=-16384s
+/sdcard		vfat	        /dev/block/mmcblk1 		/dev/block/mmcblk1p1
+#/misc		emmc		/dev/block/mmcblk0p6
 #/boot		toc	        /dev/block/mmcblk0.BOOT
 #/recovery	toc	        /dev/block/mmcblk0.RECOVERY
 #/modem		toc	        /dev/block/mmcblk0.MODEM
 #/modemfs	toc	        /dev/block/mmcblk0.MODEMFS
-#Note: neither boot.img and recovery.img is used for the upgrade project ot Janice
-#         adding below two lines just to make user build
-/boot		emmc	/dev/block/mmcblk0p15
-/recovery	        emmc	/dev/block/mmcblk0p15
-/efs		        ext4	        /dev/block/mmcblk0p7
-/preload		ext4	/dev/block/mmcblk0p9
-/sdcard1          vfat          /dev/block/mmcblk0p8
+/boot		emmc		/dev/block/mmcblk0p15
+/recovery	emmc		/dev/block/mmcblk0p15
+/efs		ext4	        /dev/block/mmcblk0p7
+/preload	ext4		/dev/block/mmcblk0p9
+/sdcard1        vfat          	/dev/block/mmcblk0p8

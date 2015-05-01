@@ -37,10 +37,12 @@ on init
     mkdir /debug
     mount debugfs none /debug
 
-
 on fs
 
     mount_all /fstab.samsungjanice
+
+    exec /sbin/mount_data.sh
+
     setprop ro.crypto.fuse_sdcard false
 	
 # for LogMeIn
