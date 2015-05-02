@@ -70,7 +70,7 @@ static inline void frontswap_tmem_exclusive_gets(bool b)
 #define ZERO_FILLED 0x2
 
 /* enable (or fix code) when Seth's patches are accepted upstream */
-#define zcache_writeback_enabled 0
+#define zcache_writeback_enabled 1
 
 static bool zcache_enabled __read_mostly;
 static bool disable_cleancache __read_mostly;
