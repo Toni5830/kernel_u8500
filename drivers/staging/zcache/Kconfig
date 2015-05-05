@@ -47,7 +47,7 @@ config RAMSTER_DEBUG
 # BROKEN can be removed
 config ZCACHE_WRITEBACK
 	bool "Allow compressed swap pages to be writtenback to swap disk"
-	depends on ZCACHE=y
+	depends on ZCACHE=y && BROKEN
 	default n
 	help
 	  Zcache caches compressed swap pages (and other data) in RAM which
