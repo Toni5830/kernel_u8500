@@ -357,6 +357,10 @@ CFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
 AFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
+ifeq ($(CONFIG_MMU),)
+CFLAGS_MODULE  +=-mlong-calls
+endif
+
 # Use LINUXINCLUDE when you must reference the include/ directory.
 # Needed to be compatible with the O= option
 LINUXINCLUDE    := -I$(srctree)/arch/$(hdr-arch)/include \
