@@ -11,6 +11,7 @@ obj-$(CONFIG_CPU_FREQ_GOV_ONDEMAND) += cpufreq_ondemand.o
 obj-$(CONFIG_CPU_FREQ_GOV_CONSERVATIVE) += cpufreq_conservative.o 
 obj-$(CONFIG_CPU_FREQ_GOV_INTERACTIVE) += cpufreq_interactive.o
 obj-$(CONFIG_CPU_FREQ_GOV_HOTPLUG)	+= cpufreq_hotplug.o
+obj-$(CONFIG_CPU_FREQ_GOV_DYNAMIC)	+= cpufreq_dynamic.o
 obj-$(CONFIG_CPU_FREQ_GOV_ABYSSPLUG) += cpufreq_abyssplug.o
 obj-$(CONFIG_CPU_FREQ_GOV_ONDEMANDQ)	+= cpufreq_ondemandq.o
 obj-$(CONFIG_CPU_FREQ_GOV_INTERACTIVEQ)	+= cpufreq_interactiveq.o

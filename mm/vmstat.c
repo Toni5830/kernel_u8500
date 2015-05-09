@@ -613,6 +613,9 @@ static char * const migratetype_names[MIGRATE_TYPES] = {
 	"Reclaimable",
 	"Movable",
 	"Reserve",
+#ifdef CONFIG_CMA
+	"CMA",
+#endif
 	"Isolate",
 };
 
@@ -718,6 +721,7 @@ const char * const vmstat_text[] = {
 	"numa_other",
 #endif
 	"nr_anon_transparent_hugepages",
+        "nr_free_cma",
 #ifdef CONFIG_UKSM
 	"nr_uksm_zero_pages",
 #endif
