@@ -1,0 +1,10 @@
+on post-fs
+    start module_loader
+
+on property:sys.boot_completed=1
+    #we don't have selinux anyway...
+    stop auditd
+
+service module_loader /system/bin/logwrapper /sbin/load_modules.sh
+    oneshot
+    disabled
