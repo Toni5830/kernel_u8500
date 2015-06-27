@@ -245,8 +245,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -pipe
-HOSTCXXFLAGS = -pipe
+HOSTCFLAGS  := -Wall -Wmissing-prototypes -Wstrict-prototypes -Ofast -fomit-frame-pointer -std=gnu99 --param ggc-min-expand=70 --param ggc-min-heapsize=262144 -pipe
+HOSTCXXFLAGS := -Ofast --param ggc-min-expand=70 --param ggc-min-heapsize=262144 -pipe
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -347,19 +347,16 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-OPTIMIZATION_FLAGS = -march=armv7-a -mtune=cortex-a9 -mfpu=neon \
-                     -ffast-math -fsingle-precision-constant \
-                     -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr
-CFLAGS_MODULE   = $(OPTIMIZATION_FLAGS)
-AFLAGS_MODULE   = $(OPTIMIZATION_FLAGS)
+CFLAGS_MODULE   = -pipe
+AFLAGS_MODULE   =
 LDFLAGS_MODULE  =
-CFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
-AFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
-CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
+CFLAGS_KERNEL	=
+AFLAGS_KERNEL	=
+CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -pipe
 
-ifeq ($(CONFIG_MMU),)
-CFLAGS_MODULE  +=-mlong-calls
-endif
+#ifeq ($(CONFIG_MMU),)
+#CFLAGS_MODULE  +=-mlong-calls
+#endif
 
 # Use LINUXINCLUDE when you must reference the include/ directory.
 # Needed to be compatible with the O= option
@@ -375,12 +372,12 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
-		   -mfpu=neon -funsafe-math-optimizations \
-		   -ftree-vectorize -pipe -marm \
-		   -mcpu=cortex-a9 \
+		   -std=gnu89 \
+		   -marm \
+		   -march=armv7-a
 		   -mtune=cortex-a9 \
+		   -mfpu=neon-fp16 \
 		   -mfloat-abi=softfp \
-		   -mfpu=vfpv3 \
 		   -mvectorize-with-neon-double \
 		   -DNDEBUG \
 		   -fsection-anchors \
@@ -390,18 +387,23 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -ftree-loop-ivcanon \
 		   -funswitch-loops \
 		   -frename-registers \
-		   -fgcse-sm \
 		   -fgcse-las \
 		   -fweb \
 		   -ftracer \
 		   -fipa-pta \
 		   -fmodulo-sched \
-		   -fmodulo-sched-allow-regmoves
+		   -fsingle-precision-constant \
+		   -fgcse-sm \
+		   -fsched-spec-load \
+		   -fforce-addr \
+		   --param ggc-min-expand=70 \
+		   --param ggc-min-heapsize=262144 \
+		   -pipe
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
-KBUILD_AFLAGS_MODULE  := -DMODULE
-KBUILD_CFLAGS_MODULE  := -DMODULE
+KBUILD_AFLAGS_MODULE  := -DMODULE -pipe
+KBUILD_CFLAGS_MODULE := -DMODULE -pipe
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
 
 # Read KERNELRELEASE from include/config/kernel.release (if it exists)
