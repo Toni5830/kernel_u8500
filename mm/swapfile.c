@@ -2034,7 +2034,7 @@ int swapon(char *name, int swap_flags)
 {
 	struct swap_info_struct *p;
 
-	struct file *swap_file = fNULL;
+	struct file *swap_file = NULL;
 	struct address_space *mapping;
 	int i;
 	int prio;
