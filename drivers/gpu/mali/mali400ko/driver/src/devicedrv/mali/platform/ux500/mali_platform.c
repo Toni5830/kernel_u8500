@@ -56,8 +56,8 @@
 #define AB8500_VAPE_MIN_UV		700000
 #define AB8500_VAPE_MAX_UV		1487500
 
-#define MALI_CLOCK_DEFLO		399360
-#define MALI_CLOCK_DEFHI		499200
+#define MALI_CLOCK_DEFLO		360000
+#define MALI_CLOCK_DEFHI		599040
 
 struct mali_dvfs_data
 {
@@ -67,15 +67,15 @@ struct mali_dvfs_data
 };
 
 static struct mali_dvfs_data mali_dvfs[] = {
-	{299520, 0x0105014E, 0x1d},
-	{320000, 0x01030132, 0x1d},
-	{360000, 0x0105015E, 0x1d},
-	{399360, 0x01050168, 0x1d},
-	{449280, 0x01050175, 0x22},
-	{499200, 0x01050182, 0x3F},
-	{549120, 0x0105018F, 0x3F},
-	{599040, 0x0105019C, 0x3F},
-	{648960, 0x010501A9, 0x3F},
+	{299520, 0x0105014E, 0x26},
+	{320000, 0x01030132, 0x26},
+	{360000, 0x0105015E, 0x26},
+	{399360, 0x01050168, 0x26},
+	{449280, 0x01050175, 0x29},
+	{499200, 0x01050182, 0x33},
+	{549120, 0x0105018F, 0x33},
+	{599040, 0x0105019C, 0x34},
+	{648960, 0x010501A9, 0x34},
 	{675840, 0x010501B0, 0x3F},
 	{691200, 0x010501B4, 0x3F},
 	{706560, 0x010501B8, 0x3F},
@@ -671,6 +671,7 @@ static ssize_t mali_boost_high_store(struct kobject *kobj, struct kobj_attribute
 		}
 
 		return count;
+
 	}
 
 	return -EINVAL;
