@@ -1853,17 +1853,17 @@ static int memcg_oom_wake_function(wait_queue_t *wait,
 
 	oom_wait_info = container_of(wait, struct oom_wait_info, wait);
 
-	if (oom_wait_info->mem == wake_mem)
+	if (oom_wait_info->mem == wake_memcg)
 		goto wakeup;
 	/* if no hierarchy, no match */
-	if (!oom_wait_info->mem->use_hierarchy || !wake_mem->use_hierarchy)
+	if (!oom_wait_info->mem->use_hierarchy || !wake_memcg->use_hierarchy)
 		return 0;
 	/*
-	 * Both of oom_wait_info->mem and wake_mem are stable under us.
+	 * Both of oom_wait_info->mem and wake_memcg are stable under us.
 	 * Then we can use css_is_ancestor without taking care of RCU.
 	 */
-	if (!css_is_ancestor(&oom_wait_info->memcg->css, &wake_memcg->css) &&
-	    !css_is_ancestor(&wake_memcg->css, &oom_wait_info->memcg->css))
+	if (!css_is_ancestor(&oom_wait_info->mem->css, &wake_memcg->css) &&
+	    !css_is_ancestor(&wake_memcg->css, &oom_wait_info->mem->css))
 		return 0;
 
 wakeup:
@@ -5029,7 +5029,7 @@ mem_cgroup_create(struct cgroup_subsys *ss, struct cgroup *cont)
 		parent = NULL;
 		if (mem_cgroup_soft_limit_tree_init())
 			goto free_out;
-		root_mem_cgroup = mem;
+		root_mem_cgroup = memcg;
 		for_each_possible_cpu(cpu) {
 			struct memcg_stock_pcp *stock =
 						&per_cpu(memcg_stock, cpu);
@@ -5063,7 +5063,7 @@ mem_cgroup_create(struct cgroup_subsys *ss, struct cgroup *cont)
 	if (parent)
 		memcg->swappiness = get_swappiness(parent);
 	atomic_set(&memcg->refcnt, 1);
-	mem->move_charge_at_immigrate = 0;
+	memcg->move_charge_at_immigrate = 0;
 	mutex_init(&memcg->thresholds_lock);
 	return &memcg->css;
 free_out:
