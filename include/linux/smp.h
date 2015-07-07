@@ -29,6 +29,15 @@ extern unsigned int total_cpus;
 int smp_call_function_single(int cpuid, smp_call_func_t func, void *info,
 			     int wait);
 
+/*
+ * Call a function on each processor for which the supplied function
+ * cond_func returns a positive value. This may include the local
+ * processor.
+ */
+void on_each_cpu_cond(bool (*cond_func)(int cpu, void *info),
+                smp_call_func_t func, void *info, bool wait,
+                gfp_t gfp_flags);
+
 #ifdef CONFIG_SMP
 
 #include <linux/preempt.h>

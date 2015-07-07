@@ -1639,7 +1639,6 @@ int vmemmap_populate_basepages(struct page *start_page,
 int vmemmap_populate(struct page *start_page, unsigned long pages, int node);
 void vmemmap_populate_print_last(void);
 
-
 enum mf_flags {
 	MF_COUNT_INCREASED = 1 << 0,
 };
@@ -1653,6 +1652,8 @@ extern atomic_long_t mce_bad_pages;
 extern int soft_offline_page(struct page *page, int flags);
 
 extern void dump_page(struct page *page);
+
+static inline unsigned int debug_guardpage_minorder(void) { return 0; }
 
 #if defined(CONFIG_TRANSPARENT_HUGEPAGE) || defined(CONFIG_HUGETLBFS)
 extern void clear_huge_page(struct page *page,
